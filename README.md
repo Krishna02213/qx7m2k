@@ -45,6 +45,7 @@ frontend/src/App.tsx           Dashboard experience
 frontend/src/styles.css        Responsive visual system
 frontend/src/types.ts          API response types
 scripts/fetch_elexon.py        Elexon ingestion and deduplication
+scripts/build_demo_data.py     Static-preview fallback generator
 Dockerfile                     Multi-stage production image
 docker-compose.yml             One-command local container startup
 Procfile                       Heroku process definition
@@ -66,6 +67,7 @@ source .venv/bin/activate
 pip install -r backend/requirements-dev.txt
 cd frontend && npm install && cd ..
 python scripts/fetch_elexon.py
+python scripts/build_demo_data.py
 uvicorn backend.app.main:app --reload --port 8000
 ```
 

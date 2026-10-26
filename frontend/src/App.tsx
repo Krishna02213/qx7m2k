@@ -30,6 +30,7 @@ function App() {
   const [month, setMonth] = useState<MonthResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [staticMode, setStaticMode] = useState(false)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -37,8 +38,17 @@ function App() {
     Promise.all([
       fetch(`/api/forecast?delivery_date=${deliveryDate}&cutoff=${cutoff}`, { signal: controller.signal }).then(r => r.ok ? r.json() : Promise.reject(r)),
       fetch(`/api/performance?cutoff=${cutoff}`, { signal: controller.signal }).then(r => r.ok ? r.json() : Promise.reject(r)),
-    ]).then(([daily, monthly]) => { setDay(daily); setMonth(monthly) })
-      .catch(err => { if (err.name !== 'AbortError') setError('Unable to load the Elexon analysis.') })
+    ]).then(([daily, monthly]) => { setDay(daily); setMonth(monthly); setStaticMode(false) })
+      .catch(async err => {
+        if (err.name === 'AbortError') return
+        try {
+          const demo = await fetch('/demo-data.json', { signal: controller.signal }).then(r => r.json())
+          setDay(demo.days[deliveryDate]); setMonth(demo.month); setStaticMode(true)
+          setError(cutoff === demo.cutoff ? '' : `Static preview uses the ${demo.cutoff} cutoff. Use the API deployment for custom cutoffs.`)
+        } catch {
+          setError('Unable to load the Elexon analysis.')
+        }
+      })
       .finally(() => setLoading(false))
     return () => controller.abort()
   }, [deliveryDate, cutoff])
@@ -53,7 +63,7 @@ function App() {
     <header className="topbar">
       <a className="brand" href="#top" aria-label="WindSight home"><span className="brand-mark"><Wind size={23}/></span><span>Wind<span>Sight</span></span></a>
       <nav><a className="active" href="#decision">Decision view</a><a href="#performance">Performance</a><a href="#methodology">Methodology</a></nav>
-      <div className="source-pill"><span></span>Elexon · January 2026</div>
+      <div className="source-pill"><span></span>Elexon · January 2026{staticMode ? ' · snapshot' : ''}</div>
     </header>
 
     <main id="top">

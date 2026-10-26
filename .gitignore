@@ -10,4 +10,5 @@ frontend/dist/
 frontend/vite.config.js
 frontend/vite.config.d.ts
 backend/app/data/*.tmp
+outputs/
 
