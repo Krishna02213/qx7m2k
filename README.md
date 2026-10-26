@@ -4,7 +4,9 @@ WindSight is a pilot decision-support portal for a UK energy utility buying powe
 
 ## Live application
 
-Deployment URL: **to be added after deployment**
+Public pilot preview: **https://windsight-qx7m2k.krishnasen0006.chatgpt.site**
+
+The preview is a static, reproducible January 2026 snapshot. The React + FastAPI application is configured for Vercel and Heroku below; deploying to either provider requires an authenticated account for that provider.
 
 ## What the product does
 
