@@ -48,6 +48,8 @@ frontend/src/styles.css        Responsive visual system
 frontend/src/types.ts          API response types
 scripts/fetch_elexon.py        Elexon ingestion and deduplication
 scripts/build_demo_data.py     Static-preview fallback generator
+scripts/make_demo_video.py     Narrated demo video renderer
+VIDEO_SCRIPT.md                Customer and technical-review talk track
 Dockerfile                     Multi-stage production image
 docker-compose.yml             One-command local container startup
 Procfile                       Heroku process definition
@@ -81,6 +83,12 @@ npm run dev
 ```
 
 Open <http://localhost:5173>.
+
+The supplied video script can also render a narrated MP4 from the running application. It requires Chrome, FFmpeg, and macOS speech synthesis:
+
+```bash
+python scripts/make_demo_video.py
+```
 
 ## Tests and build
 

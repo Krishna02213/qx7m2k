@@ -12,4 +12,5 @@ frontend/vite.config.d.ts
 backend/app/data/*.tmp
 outputs/
 dist/
+work/video/render/
 
